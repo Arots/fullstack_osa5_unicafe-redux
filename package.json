@@ -15,7 +15,6 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "deep-freeze": "0.0.1",
-    "jest": "^23.5.0"
+    "deep-freeze": "0.0.1"
   }
 }
