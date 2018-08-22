@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
 import ReactDOM from 'react-dom'
+import store from './store'
 
 const Statistiikka = () => {
-  const palautteita = 0
 
-  if (palautteita === 0) {
+  if (store.getState().palautteita === 0) {
     return (
       <div>
         <h2>stataistiikka</h2>
@@ -21,35 +21,46 @@ const Statistiikka = () => {
         <tbody>
           <tr>
             <td>hyvä</td>
-            <td></td>
+            <td>{store.getState().good}</td>
           </tr>
           <tr>
             <td>neutraali</td>
-            <td></td>
+            <td>{store.getState().ok}</td>
           </tr>
           <tr>
             <td>huono</td>
-            <td></td>
+            <td>{store.getState().bad}</td>
           </tr>
           <tr>
             <td>keskiarvo</td>
-            <td></td>
+            <td>{store.getState().good - store.getState().bad}</td>
           </tr>
           <tr>
             <td>positiivisia</td>
-            <td></td>
+            <td>{store.getState().good / store.getState().palautteita} </td>
           </tr>
         </tbody>
       </table>
 
-      <button>nollaa tilasto</button>
+      <button type="button" onClick={e => store.dispatch({ type: 'ZERO' })}>
+        nollaa tilasto</button>
     </div >
   )
 }
 
 class App extends React.Component {
   klik = (nappi) => () => {
-
+    switch (nappi) {
+      case 'GOOD':
+        store.dispatch({ type: 'GOOD' })
+        break
+      case 'OK':
+        store.dispatch({ type: 'OK' })
+        break
+      case 'BAD':
+        store.dispatch({ type: 'BAD' })
+        break
+    }
   }
 
   render() {
@@ -65,5 +76,10 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const render = () => {
+  ReactDOM.render(<App />, document.getElementById('root'))
+}
+
+render()
+store.subscribe(render)
 export default App;
